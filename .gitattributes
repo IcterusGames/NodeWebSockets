@@ -3,5 +3,5 @@
 
 /README.md export-ignore
 /LICENSE export-ignore
-/.gitattributes
-/.gitignore
+/.gitattributes export-ignore
+/.gitignore export-ignore
