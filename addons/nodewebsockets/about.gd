@@ -1,4 +1,4 @@
-# plugin_nodewebsockets.gd
+# about.gd
 # This file is part of: NodeWebSockets
 # Copyright (c) 2023 IcterusGames
 #
@@ -20,29 +20,15 @@
 # CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 @tool
-extends EditorPlugin
-
-var _win_about = null
-var _inspector_plugin : EditorInspectorPlugin = null
+extends AcceptDialog
 
 
-func _enter_tree():
-	_win_about = load("res://addons/nodewebsockets/about.tscn").instantiate()
-	_win_about.visible = false
-	get_editor_interface().get_base_control().get_window().call_deferred(StringName("add_child"), _win_about)
-	_inspector_plugin = load("res://addons/nodewebsockets/plugin_nws_inspector.gd").new()
-	_inspector_plugin.about_pressed.connect(_on_about_pressed)
-	add_inspector_plugin(_inspector_plugin)
+func _ready():
+	name = "NodeWebSocketsHelpAbout"
+	get_ok_button().custom_minimum_size.x = 100
 
 
-func _exit_tree():
-	if _win_about != null:
-		_win_about.queue_free()
-	if _inspector_plugin != null:
-		remove_inspector_plugin(_inspector_plugin)
-
-
-func _on_about_pressed():
-	if _win_about:
-		_win_about.popup_centered()
+func _on_rich_text_label_meta_clicked(meta):
+	OS.shell_open(str(meta))
